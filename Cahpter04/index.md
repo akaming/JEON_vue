@@ -71,6 +71,7 @@ Vue 인스턴스에 메서드를 작성하여 이벤트를 처리할 수 있습�
 Vue.js의 이벤트 객체는 W3C 표준 HTML DOM Event 모델을 그대로 따르면서 추가적인 속성을 제공합니다.
 
 표 04-01 이벤트 객체의 주요 공통 속성
+
 | 속성명 | 설명 |
 |:--------|:--------|
 | target | 이벤트가 발생한 HTML 요소를 리턴함 |
@@ -81,7 +82,6 @@ Vue.js의 이벤트 객체는 W3C 표준 HTML DOM Event 모델을 그대로 따�
 | defaultPrevented | 기본 이벤트가 방지되었는지 여부를 나타냄 |
 | eventPhase | 이벤트 흐름의 단계를 나타냄<br> 1.포착(CAPTURING_PHASE)<br> 2.이벤트 발생(AT_TARGET)<br> 3.버블링(BUBBLING_PHASE)|
 | srcElement | ID에서 사용되던 속성으로 TARGET과 동일한 속성 |
-|||
 
 표 04-02 키보드 이벤트 관련 속성
 
@@ -96,7 +96,6 @@ Vue.js의 이벤트 객체는 W3C 표준 HTML DOM Event 모델을 그대로 따�
 | keyCode | 이벤트를 발생시킨 키보드의 고유 키코드. 대소문자 구분하지 않음 |
 | charCode | keypress 이벤트가 발생될 때 Unicode 캐릭터 코드를 리턴함 |
 | location | 디바이스에서의 키 위치값. 일반 키보드는 이 값이 모두 0이므로 이용할 수 없음 |
-|||
 
 표 04-03 마우스 이벤트 관련 속성
 
@@ -110,7 +109,6 @@ Vue.js의 이벤트 객체는 W3C 표준 HTML DOM Event 모델을 그대로 따�
 | offsetX, offsetY | 마우스 이벤트가 발생한 HTML 요소 영역상에서의 좌표(IE 사용) |
 | pageX, pageY | 마우스 이벤트가 일어났을 때의 HTML 문서 영역상의 좌표 |
 | screenX, screenY | 마우스 이벤트가 일어났을 때의 모니터 화면 영역상의 좌표 |
-|||
 
 표 04-04 이벤트 객체의 주요 메서드
 
@@ -118,7 +116,6 @@ Vue.js의 이벤트 객체는 W3C 표준 HTML DOM Event 모델을 그대로 따�
 |:--------|:--------|
 | preventDefault() | 기본 이벤트의 자동 실행을 중지시킴 |
 | stopPropagation() | 이벤트의 전파를 막음 |
-|||
 
 ## 4.4 기본 이벤트
 
