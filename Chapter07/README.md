@@ -4,10 +4,10 @@
 이 책에서는 ES2015 코드를 작성하고 Babel로 트랜스파일하여 실행해 볼 것입니다.
 
 ## 7.1 ES2015를 사용하기 위한 프로젝트 설정
-1 프로젝트 디렉터리 생성 : 임의의 폴더(es2015test) 생성
-2 package.json파일 생성 : 프로젝트 디렉터리로 이동 후 npm init (기본값으로 설정)
+1. 프로젝트 디렉터리 생성 : 임의의 폴더(es2015test) 생성
+2. package.json파일 생성 : 프로젝트 디렉터리로 이동 후 npm init (기본값으로 설정)
     ![package.json파일 생성](./img/7_01.png)
-3 Babel 관련 라이브러리는 자주 사용되기 때문에 전역에 설치 ([yarn](https://www.holaxprogramming.com/2017/12/21/node-yarn-tutorials/) 설치 권장)
+3. Babel 관련 라이브러리는 자주 사용되기 때문에 전역에 설치 ([yarn](https://www.holaxprogramming.com/2017/12/21/node-yarn-tutorials/) 설치 권장)
     + npm install -g babel-cli yarn (windows)
     + sudo npm install -g babel-cli yarn (macOS)
 4. Babel 트랜스파일러는 개발 의존성 패키지로 설치합니다.
