@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>05-04:여러 개의 스타일 객체 적용</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="example">
+        <button id="btn1" v-bind:style="[myColor, myLayout]">버튼1</button>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el : "#example",
+            data : {
+                myColor : {backgroundColor:'purple', color:'yellow'},
+                myLayout : {width:'150px', height:'80px', textAlign:'center'}
+            }
+        })
+    </script>
+</body>
+</html>

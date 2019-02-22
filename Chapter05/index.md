@@ -1,325 +1,253 @@
-# Chapter4. 이벤트 처리
+# Chapter5. 스타일
 
-## 4.1 인라인 이벤트 처리
+## 5.1 스타일 적용
 
-Vue.js에서 이벤트는 v-on 디렉티브를 이용해서 처리할 수 있습니다.
-
-```
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>4-01</title>
-<script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
-</head>
-<body>
-
-<div id="exp">
-    <button id="plus" v-on:click="total+=num">더하기</button>
-    <button id="minus" v-on:click="total-=num">빼기</button>
-    <p>{{total}}</p>
-</div>
-
-<script>
-    var vm = new Vue({
-        el : '#exp',
-        data : {
-            num : 1,
-            total : 0
-        },
-    })
-</script>
-</body>
-</html>
-```
-
-## 4.2 이벤트 핸들러 메서드
-
-Vue 인스턴스에 메서드를 작성하여 이벤트를 처리할 수 있습니다.
-
-```
-<div id="exp">
-    <button id="plus" @click="plus">더하기</button>
-    <button id="minus" @click="minus">빼기</button>
-    <p>{{total}}</p>
-</div>
-
-<script>
-    var vm = new Vue({
-        el : '#exp',
-        data : {
-            num : 1,
-            total : 0
-        },
-        methods : {
-            plus : function(e) {
-                return this.total += this.num;
-            },
-            minus : function() {
-                return this.total -= this.num;
-            }
-        }
-    })
-</script>
-```
-
-## 4.3 이벤트 객체
-
-이벤트를 처리하는 메서드는 첫 번째 파라미터로 이벤트 객체를 전달 받습니다.<br>
-Vue.js의 이벤트 객체는 W3C 표준 HTML DOM Event 모델을 그대로 따르면서 추가적인 속성을 제공합니다.
-
-표 04-01 이벤트 객체의 주요 공통 속성
-
-| 속성명 | 설명 |
-|:--------|:--------|
-| target | 이벤트가 발생한 HTML 요소를 리턴함 |
-| currentTarget | 이벤트리스너가 이벤트를 발생시키는 HTML 요소를 리턴함 |
-| path | 이벤트 발생 HTML 요소로부터 document, window 객체로 거슬러 올라가는 경로 |
-| bubbles | 현재의 이벤트가 버블링을 일으키는 이벤트인지 여부를 리턴함 |
-| cancelable | 기본 이벤트를 방지할 수 있는지 여부를 리턴함 |
-| defaultPrevented | 기본 이벤트가 방지되었는지 여부를 나타냄 |
-| eventPhase | 이벤트 흐름의 단계를 나타냄<br> 1.포착(CAPTURING_PHASE)<br> 2.이벤트 발생(AT_TARGET)<br> 3.버블링(BUBBLING_PHASE)|
-| srcElement | ID에서 사용되던 속성으로 TARGET과 동일한 속성 |
-
-표 04-02 키보드 이벤트 관련 속성
-
-| 속성명 | 설명 |
-|:--------|:--------|
-| altKey | ALT 키가 눌러졌는지 여부를 나타냄 |
-| shiftKey | SHIFT 키가 눌러졌는지 여부를 나타냄 |
-| ctrlKey | CTRL 키가 눌러졌는지 여부를 나타냄 |
-| metaKey | 윈도우는 window 키, 맥은 Command 키를 눌렀는지 여부를 나타냄 |
-| key | 이벤트에 의해 나타나는 키의 값을 리턴함. 대소문자 구분 |
-| code | 이벤트를 발생시킨 키의 코드값을 리턴함 |
-| keyCode | 이벤트를 발생시킨 키보드의 고유 키코드. 대소문자 구분하지 않음 |
-| charCode | keypress 이벤트가 발생될 때 Unicode 캐릭터 코드를 리턴함 |
-| location | 디바이스에서의 키 위치값. 일반 키보드는 이 값이 모두 0이므로 이용할 수 없음 |
-
-표 04-03 마우스 이벤트 관련 속성
-
-| 속성명 | 설명 |
-|:--------|:--------|
-| altKey, shiftKey<br>ctrlKey, metaKey | 키보드 이벤트 관련 속성 참조 |
-| button | 이벤트를 발생시킨 마우스 버튼<br> 0 : 마우스 왼쪽<br> 1 : 마우스 휠<br> 2 : 마우스 오른쪽 |
-| buttons | 마우스 이벤트가 발생한 후에 눌러져 있는 마우스 버튼의 값을 리턴함<br> 1 : 마우스 왼쪽 버튼<br> 2 : 마우스 오른쪽 버튼<br> 4 : 마우스 휠 |
-| clientX, clientY | 마우스 이벤트가 일어났을 때의 뷰포트 영역상의 좌표 |
-| layerX, layerY | 마우스 이벤트가 발생한 HTML 요소 영역상에서의 좌표(IE 이외 사용) |
-| offsetX, offsetY | 마우스 이벤트가 발생한 HTML 요소 영역상에서의 좌표(IE 사용) |
-| pageX, pageY | 마우스 이벤트가 일어났을 때의 HTML 문서 영역상의 좌표 |
-| screenX, screenY | 마우스 이벤트가 일어났을 때의 모니터 화면 영역상의 좌표 |
-
-표 04-04 이벤트 객체의 주요 메서드
-
-| 속성명 | 설명 |
-|:--------|:--------|
-| preventDefault() | 기본 이벤트의 자동 실행을 중지시킴 |
-| stopPropagation() | 이벤트의 전파를 막음 |
-
-## 4.4 기본 이벤트
-
-HTML 문서나 요소에 어떤 기능을 실행하도록 이미 정의되어 있는 이벤트를 **기본 이벤트(Default Event)** 라고 합니다.
-
-- &lt;a&gt; 요소의 href 특성
-- 브라우저 화면을 마우스 오른쪽 클릭했을 때 나오는 메뉴 - 컨텍스트 메뉴(ContextMenu)
-- &lt;form&gt; 요소 내부의 submit 버튼 클릭 시 action 특성과 method 특성
-- &lt;input type="text"&gt; 요소에 키보드를 누르면 입력한 문자가 박스에 나타남
+HTML 요소의 스타일 특성은 모두 문자열이며, 케밥 표기법(kebab casing)을 사용한다.
+케밥 표기법을 사용하는 이유는 HTML 에서는 대소문자를 구별하지 않기 위함 이다.
 
 ```
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>04-4</title>
-<script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
-<style>
-html, body{margin:0; padding:0;}
-#exp{height:98vh; min-height:100%; padding:5px;}
-</style>
-</head>
-<body>
-
-<div id="exp" @contextmenu="ctxStop">
-    <a href="https://google.com" @click="goGoogle">구글</a>
-</div>
-
-<script>
-    var vm = new Vue({
-        el : '#exp',
-        methods : {
-            ctxStop : function(e) {
-                e.preventDefault();
-            },
-            goGoogle : function(e) {
-                if( !confirm('구글로 이동할까요?') ) {
-                    e.preventDefault();
-                }
-            }
-        }
-    })
-</script>
-</body>
-</html>
-```
-
-## 4.5 이벤트 전파와 버블링
-
-HTML 문서의 이벤트 처리는 3단계 입니다.
-
-1. 이벤트 포착 단계(CAPTURING_PHASE) - 문서 내의 요소에 이벤트 발생 시, HTML 문서의 밖에서부터 이벤트 발생시킨 HTML 요소까지 포착
-2. 이벤트 발생(PAISING_PHASE:AT_TARGET) - 이벤트를 발생시킨 요소에 다다르면 요소의 이벤트에 연결된 함수를 직접 호출
-3. 버블링(BUBBLING_PHASE) - 이벤트가 발생한 요소로부터 상위 요소로 거슬러 올라가면서 동일한 이벤트를 호출
-
-```
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>04-4</title>
-<script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
-<style>
-html, body{margin:0; padding:0;}
-#outer{position:absolute; top:100px; left:50px; width:200px; height:200px; padding:10px; border:2px solid #000; background:#333;}
-#inner{width:100px; height:100px; border:2px solid #000; background:#CCC;}
-</style>
-</head>
-<body>
-
-<div id="exp">
-    <div id="outer" @click="outerClick">
-        <div id="inner" @click.stop="innerClick"></div>
-    </div>
-</div>
-
-<script>
-    var vm = new Vue({
-        el : '#exp',
-        methods : {
-            outerClick : function(e) {
-                console.log('### Outer Click');
-                console.log('Event Phase : ', e.eventPhase);
-                console.log('Current Target : ', e.currentTarget);
-                console.log('target : ', e.target);
-            },
-            innerClick : function(e) {
-                console.log('### Inner Click');
-                console.log('Event Phase : ', e.eventPhase);
-                console.log('Current Target : ', e.currentTarget);
-                console.log('target : ', e.target);
-            }
-        }
-    })
-</script>
-</body>
-</html>
-```
-
-## 4.6 [이벤트 수식어](https://kr.vuejs.org/v2/guide/events.html#%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EC%88%98%EC%8B%9D%EC%96%B4)
-
-### 4.6.1 Once
-
-once 수식어는 한 번만 이벤트를 발생시킵니다.
-
-```
-<div id="exp">
-    <button id="once" @click.once="once">버튼</button>
-</div>
-
-<script>
-    var vm = new Vue({
-        el : '#exp',
-        methods : {
-            once : function() {
-                alert('한 번 호출');
-            }
-        }
-    })
-</script>
-```
-
-### 4.6.2 키코드 수식어
-
-키보드 관련 이벤트를 처리할 때 사용할 수 있는 수식어 입니다.<br>
-고유의 키코드(KeyCode) 값을 가질 때만 이벤트를 발생시킬 수 있습니다.<br>
-키코드 값은 일일이 기억할 수 없기에, Vue.js에서 키코드 수식어의 별칭을 제공합니다.
-
-```
-<div id="key">
-    <button id="once" @keyup="go">버튼</button>
-</div>
-
-<script>
-    var vm1 = new Vue({
-        el : '#key',
-        methods : {
-            go : function(e) {
-                if( e.keyCode == 13 ) {
-                    alert('출력')
-                }
-            }
-        }
-    })
-</script>
-```
-
-### 4.6.3 마우스 버튼 수식어
-
-특정 마우스 버튼에 의해 이벤트를 제어합니다.
-
-```
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>04-06</title>
+    <meta charset="UTF-8">
+    <title>05-01</title>
     <style>
-        html, body { margin: 0;padding: 0; }
-        #example {
-            height: 98vh; min-height: 100%; padding:10px
-        }
+        .test {background-color:yellow; border:double 4px gray;}
+        .over {background-color:aqua; width:300px; height:100px;}
     </style>
-    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
 </head>
 <body>
-<div id="example" v-on:contextmenu.prevent="ctxStop" @mouseup.left="leftMouse" @mouseup.right="rightMouse">
-    <div>
-        Left Click : 왼쪽으로<br />
-        Right Click : 오른쪽으로
+    <div style="background-color:orange;" class="test over"></div>
+</body>
+</html>
+```
+위 예제의 실행 결과를 살펴 보면 <style></style> 태그에 작성된 순서대로 CSS클래스의 스타일이 적용된 후 HTML 요소에 style 특성을 이용하는 인라인 스타일이 적용된다.
+
+## 5.2 인라인 스타일
+가능하다면 인라인 스타일은 사용하지 않는 것이 바람직하다.
+하지만 인라인 스타일이 필요한 경우도 있으니 사용 방법을 익혀둬야 한다.
+
+### Vue.js에서 인라인 스타일 적용 방법
+* 인라인 스타일은 **v-bind:style** 로 작성한다.
+* 케밥 표기법(kebab casing)이 아닌 카멜 표기법(camel casing)을 사용해야 한다.
+
+| 케밥 표기법 | 카멜 표기법 |
+|:--------|:--------|
+|font-size|fontSize|
+|backgroubd-color|backgroundColor|
+
+* 스타일 속성과 속성은 세미콜론(;)이 아닌 콤마(,) 기호를 이용해 구분한다.
+
+```
+<body>
+    <div id="example">
+(10행) <button id="a" v-bind:style="style1" @mouseover.stop="overEvent" @mouseout.stop="outEvent">테스트</button>
     </div>
-    <img src="images/foot.jpg" v-bind:style="{ position:'absolute', left: pos.left + 'px', top:pos.top +'px' }" />
+    <script type="text/javascript">
+        var vm = new Vue({
+            el : "#example",
+            data : {
+(17행)      style1 : {backgroundColor:'aqua', border:'solid 1px gray', width:'100px', textAlign:'center'}
+            },
+            methods : {
+                overEvent : function(e) {
+                    this.style1.backgroundColor = "purple";
+                    this.style1.color = "yellow";
+                },
+                outEvent :function(e) {
+                    this.style1.backgroundColor = "aqua";
+                    this.style1.color = "black";
+                }
+            }
+        })
+    </script>
+</body>
+```
+위 예제 에서는 mouseover와 mouseout 이벤트를 사용해 버튼에 마우스가 over나 out될 때 17행 의 style1 데이터 속성을 변경 한다. 변경된 속성은 10행의 v-bind:style="style1"을 통해 바인딩 된다. 17행의 style 데이터 속성을 살펴보면 backgroundColor, textAlign가 같이 카멜 표기법을 사용하면서 자바스크립트 객체 표기법을 사용하고 있음을 알 수 있다.
+
+v-bind:style 디렉티브를 통해서 개별적인 속성 하나하나를 바인딩할 수도 있다.
+```
+<body>
+    <div id="example">
+        <div :style="{backgroundColor:a.bc, border:a.bd, width:a.w+'px', height:a.h+'px'}"></div>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el : "#example",
+            data : {
+                a : {bc:'yellow', bd:'solid 1px gray', w:200, h:100}
+            }
+        })
+    </script>
+</body>
+```
+이 방법은 그리 추천하지 않는다.
+
+```
+<body>
+    <div id="example">
+        <button id="btn1" v-bind:style="[myColor, myLayout]">버튼1</button>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el : "#example",
+            data : {
+                myColor : {backgroundColor:'purple', color:'yellow'},
+                myLayout : {width:'150px', height:'80px', textAlign:'center'}
+            }
+        })
+    </script>
+</body>
+```
+myColor, myLayout 스타일 객체를 배열 구조를 이용해 적용하고 있다.
+
+## 5.3 CSS 클래스 바인딩
+CSS 클래스를 바인딩하기 위해서 v-bind:class를 사용한다. 이떄 개별적인 클래스 단위로 true가 되면 클래스가 주어진다.
+```
+<head>
+    <meta charset="UTF-8">
+    <title>05-05: v-bind:class 적용</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+    <style>
+        .set1 {background-color:aqua; color:purple;}
+        .set2 {text-align:center; width:120px;}
+        .set3 {border:sandybrown dashed 1px;}
+    </style>
+</head>
+<body>
+    <div id="example">
+        <button id="btn1" v-bind:class="{set1:s1, set2:s2, set3:s3}">버튼1</button>
+        <P>
+            <input type="checkbox" v-model="s1" value="true" />Set1 디자인<br/>
+            <input type="checkbox" v-model="s2" value="true" />Set2 디자인<br/>
+            <input type="checkbox" v-model="s3" value="true" />Set3 디자인<br/>
+        </P>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el : "#example",
+            data : {s1:false, s2:false, s3:false}
+        })
+    </script>
+</body>
+```
+v-bind:class를 이용해 클래스를 적용할 때는 boolean 값(true/false)을 이용해 지정한다. 
+체크 박스에 v-model 디렉티브를 이용해 양방향 바인딩되어 있다.
+체크되면 데이터 속성 값은 true로 변경 된다. 이 값은 v-bind:class="{set1:s1, set2:s2, set3:s3}"와 같은 형태로 각각의 클래스 지정 여부를 결정하게 된다.
+
+하지만 개별적인 값을 지정하는 것은 역시나 불편하다. 클래스 이름을 데이터 속성명으로 사용하면 이런 불편한 점을 쉽게 해결할 수 있다.
+```
+<div id="example">
+    <button id="btn1" v-bind:class="mystyle">버튼1</button>
+    <P>
+        <input type="checkbox" v-model="mystyle.set1" value="true" />Set1 디자인<br/>
+        <input type="checkbox" v-model="mystyle.set2" value="true" />Set2 디자인<br/>
+        <input type="checkbox" v-model="mystyle.set3" value="true" />Set3 디자인<br/>
+    </P>
 </div>
 <script type="text/javascript">
-var vm = new Vue({
-    el : "#example",
-    data : {
-        pos : {
-            left : 100,
-            top:100
+    var vm = new Vue({
+        el : "#example",
+        data : {
+            mystyle : {set1:false, set2:false, set3:false}
         }
-    },
-    methods: {
-        ctxStop : function(e) {
-
-        },
-        leftMouse : function(e) {
-            if ( this.pos.left > 30 ) {
-                this.pos.left -= 30;
-            }
-            
-            console.log("Move Left!!");
-        },
-        rightMouse : function(e) {
-            this.pos.left += 30;
-            console.log("Move Right!!");
-        }
-    }
-})
+    })
 </script>
+```
+적용할 클래스명을 포함하는 mystyle 이라는 이름의 데이터 속성을 가진 객첼르 작성하고, 2행에서 v-bind:class="mystyle"로 객체를 바인딩 한다.
+
+## 5.4 계산형 속성, 메서드를 이용한 스타일 적용
+다음 예제는 입력 값이 올바른 범위에 포함 되지 않을 떄 스타일 적용하는 예제 이다.
+```
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>05-06</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+    <style>
+        .score {border:solid 1px black;}
+        .warning {background-color:orange; color:purple;}
+        .warnimage {width:18px; height:18px; top:5px; position:relative;}
+    </style>
+</head>
+<body>
+    <div id="example">
+        <div>
+            <p>1부터 100까지만 입력가능 합니다.</p>
+            <div>
+                점수 : <input type="text" class="score" v-model.number="score" v-bind:class="info">
+                <img src="http://sample.bmaster.kro.kr/img/error.png" class="warnimage" v-show="info.warning">
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el : "#example",
+            data : {
+                score : 0
+            },
+            computed : {
+                info : function() {
+                    if (this.score >= 1 && this.score <= 100)
+                        return {warning:false};
+                    else 
+                        return {warning:true};
+                }
+            }
+        })
+    </script>
+</body>
+```
+score 데이터 속성은 input 요소에 양방향 바인딩 되어 있다. 
+input 요소에서 입력한 값은 score에 설정되고, v-bind:class="info"에 의해 info 계산형 속성이 바인딩 된다. info 계산형 속성은 score 값의 범위에 따라서 {warning:true} 또는 {warning:false}를 리턴하며, 이 값에 의해 warning  클래스의 지정 여부가 결정된다. 
+
+## 5.5 컴포넌트에서의 스타일 적용
+간단한 Vue 컴포넌트는 Vue.component()를 이용해 작성할 수 있다.
+(자세한 컴포넌트는 추후에 살펴 볼 것이다.)
+```
+<div id="example">
+    <center-box></center-box>
+</div>
+......
+Vue.component('center-box',{
+    template : '<div class="center">중앙에 위치</div>'
+})
+```
+center-box라는 이름의 Vue 컴포넌트를 작성했다. 이것은 <center-box></center-box>와 같이 사용할 수 있다. 이미 이 컴포넌트에도 클래스가 적용되어 있지만 추가로 클래스를 바인딩할 수 있다.
+```
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>05-06</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+    <style>
+        .boxcolor {background-color:orange;}
+        .center {width:200px; height:100px; line-height:100px; text-align:center; border:1px solid gray;}
+    </style>
+</head>
+<body>
+    <div id="example">
+       <center-box v-bind:class="boxstyle"></center-box>
+    </div>
+    <script type="text/javascript">
+        Vue.component('center-box',{
+            template:'<div class="center">중앙에 위치</div>'
+        })
+        var vm = new Vue({
+            el : "#example",
+            data : {
+                boxstyle : {boxcolor:true}
+            }
+        })
+    </script>
 </body>
 </html>
 ```
+center 클래스는 Vue 컴포넌트의 template 내부에 이미 적용되어 있다. boxcolor 클래스는 Vue 인스턴스의 boxstyle 데이터 속성값에 의해 적용 여부를 결정 할 수 있도록  <center-box v-bind:class="boxstyle"></center-box>과 같이 v-bind 디렉티브를 사용한다. 개발자 도구에서 vm.boxstyle.boxcolor=false 구문을 실행하면 즉시 색상이 바뀌는 것을 알 수 있다.
+이렇듯 간단한 방법을 사용해 컴포넌트 단위에 대해서도 클래스와 스타일을 적용할 수 있다.
+
+## 5.6 TodoList 예제
+예제 보러가기
+
