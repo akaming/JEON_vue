@@ -249,5 +249,5 @@ center 클래스는 Vue 컴포넌트의 template 내부에 이미 적용되어 �
 이렇듯 간단한 방법을 사용해 컴포넌트 단위에 대해서도 클래스와 스타일을 적용할 수 있다.
 
 ## 5.6 TodoList 예제
-예제 보러가기
+[예제 보러가기](https://github.com/Jeonjeongho/JEON_vue/blob/myungmin/Chapter05/05-9.html)
 
