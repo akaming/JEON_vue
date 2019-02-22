@@ -8,12 +8,11 @@
 2. package.json파일 생성 : 프로젝트 디렉터리로 이동 후 npm init (기본값으로 설정)
 ![package.json파일 생성](./img/7_01.png)
 3. Babel 관련 라이브러리는 자주 사용되기 때문에 전역에 설치 ([yarn](https://www.holaxprogramming.com/2017/12/21/node-yarn-tutorials/) 설치 권장)
-npm install -g babel-cli yarn (windows)
-sudo npm install -g babel-cli yarn (macOS)
+- npm install -g babel-cli yarn (windows)
+- sudo npm install -g babel-cli yarn (macOS)
 4. Babel 트랜스파일러는 개발 의존성 패키지로 설치합니다.
-yarn add -D babel-cli babel=preset-env babel-preset-stage-2
-or
-npm install --save-dev babel-cli babel=preset-env babel-preset-stage-2
+- yarn add -D babel-cli babel=preset-env babel-preset-stage-2
+- npm install --save-dev babel-cli babel=preset-env babel-preset-stage-2
 ![babel관련 라이브러리 설치](./img/7_02.png)
 5. .babelrc 파일 작성(Babel 사용시 필수)
 ```
