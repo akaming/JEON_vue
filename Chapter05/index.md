@@ -199,7 +199,7 @@ v-bind:class를 이용해 클래스를 적용할 때는 boolean 값(true/false)�
     </script>
 </body>
 ```
-score 데이터 속성은 input 요소에 양방향 바인딩 되어 있다. 
+score 데이터 속성은 input 요소에 [양방향 바인딩](https://goo.gl/vjfX7g) 되어 있다. 
 input 요소에서 입력한 값은 score에 설정되고, v-bind:class="info"에 의해 info 계산형 속성이 바인딩 된다. info 계산형 속성은 score 값의 범위에 따라서 {warning:true} 또는 {warning:false}를 리턴하며, 이 값에 의해 warning  클래스의 지정 여부가 결정된다. 
 
 ## 5.5 컴포넌트에서의 스타일 적용
