@@ -28,7 +28,26 @@
 	+ Babel 사이트에서 직접 변환 : <https://babeljs.io/repl/>에 접속해서 코드를 직접 확인 할 수도 있습니다.
 	![babel 트랜스파일](./img/7_03.png)
 
-## 7.2 let과 const
+## 7.2 let과 const : [Jeonjeongho/JEON206 참고](https://github.com/Jeonjeongho/JEON206/blob/master/Chapter3/index.md#%EB%B3%80%EC%88%98%EC%99%80-%EC%83%81%EC%88%98)
+* let과 const는 변수선언 키워드 입니다.
+* ES2015 이전까지는 var 키워드를 사용하였는데 호이스팅이 되고, 중복 선언해도 오류가 발생하지 않았습니다.
+* 이러한 문제를 해결하기 위해 let드 키워를 지원합니다. (블록 단위의 스코프, 중복 선언 방지)
+* const는 상수 기능을 제공합니다. 즉 한번 값이 주어지면 다시 변경할 수 없습니다.
+    + var 키워는 중복 선언해도 오류가 발생하지 않습니다.
+    ```
+    var a = 100;
+    var a = "hello";
+    var a = {name:"sangmi", age: 20};
+    ```
+    + let을 사용하면 오류 발생
+    ```
+    let a = 100;
+    var a = "hello";
+    var a = {name:"sangmi", age: 20};
+    ```
+    ![let 키워드](./img/7_04.png)
+
+
 ## 7.3 기본 파라미터와 가변 파라미터
 ## 7.4 구조분해 할당(destructuring  assignment)
 ## 7.5 화살표 함수(Arrow function)
