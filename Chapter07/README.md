@@ -20,7 +20,7 @@
         "presets":["env","stage-2"]
     }
 ```
-6. [예제 07-01](src/07-01.js)를 통해 트랜스파일된 코드 확인
+6. [예제 07-01](es2015test/src/07-01.js)를 통해 트랜스파일된 코드 확인
 	+ VSCode : build 디렉터리에 동일한 파일명으로 출력 (node build/07-01.js 실행)
 	+ Babel : <https://babeljs.io/repl/>에 접속해서 코드를 직접 확인 할 수도 있습니다.
 	![babel 트랜스파일](./img/7_03.png)
