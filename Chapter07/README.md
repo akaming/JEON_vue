@@ -1,7 +1,9 @@
 # 07. ECMAScript 2015
-대규모 앱을 개발하려면 SPA(Single Page Application) 구조라야 하는데, Vue.js 기반의 SPA 애플리케이션을 개발하려면 Vue Router, Vuex등의 다양한 요소가 필요합니다.
-이들을 이용하기 위해서는 ECMAScript 2015(이하 ES2015라고 표기합니다.)나, Typescript등을 사용해야 합니다. 하지만 ES2015는 최신브라우저에서만 지원하고 Typescript는 브라우저에서 직접 실행 되지 않아 트랜스파일러(Transpiler)를 이용해 하위 버전에서 사용할 수 있는 자바스크립트로 번역해서 사용합니다.
-이 책에서는 ES2015 코드를 작성하고 Babel로 트랜스파일하여 실행해 볼 것입니다.
+* Vue.js 기반의 SPA(Single Page Application) 애플리케이션을 개발하려면 Vue Router, Vuex등의 다양한 요소가 필요합니다.
+* 이들을 이용하기 위해서는 ECMAScript 2015(이하 ES2015라고 표기합니다.)나, Typescript등을 사용해야 합니다.
+* 최신 브라우저에서만 지원하므로 트랜스파일러(Transpiler)라는 것을 이용해 하위 버전의 자바스크립트로 번역합니다.
+* 대표적인 트랜스파일러는 Babel, TSC(typeScript Compiler)이며, Vue CLI는 두 가지 트랜스파일러를 모두 제공합니다.
+* 이 책에서는 ES2015 코드를 작성하고 Babel로 트랜스파일하여 실행해 볼 것입니다.
 
 ## 7.1 ES2015를 사용하기 위한 프로젝트 설정
 1. 프로젝트 디렉터리 생성 : 임의의 폴더(es2015test) 생성
@@ -22,7 +24,18 @@
 ```
 6. [예제 07-01](es2015test/src/07-01.js)를 통해 트랜스파일된 코드 확인
 	+ VSCode : build 디렉터리에 동일한 파일명으로 출력 (node build/07-01.js 실행)
-	+ Babel : <https://babeljs.io/repl/>에 접속해서 코드를 직접 확인 할 수도 있습니다.
+	+ babel 명령어로 코드를 변환 : babel src -d build -w
+	+ Babel 사이트에서 직접 변환 : <https://babeljs.io/repl/>에 접속해서 코드를 직접 확인 할 수도 있습니다.
 	![babel 트랜스파일](./img/7_03.png)
 
 ## 7.2 let과 const
+## 7.3 기본 파라미터와 가변 파라미터
+## 7.4 구조분해 할당(destructuring  assignment)
+## 7.5 화살표 함수(Arrow function)
+## 7.6 새로운 객체 리터럴
+## 7.7 템플릿 리터럴
+## 7.8 컬렉션
+## 7.9 클래스
+## 7.10 모듈
+## 7.11 Promise
+## 7.12 전개 연산자(Spread Operator)
