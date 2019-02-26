@@ -28,12 +28,13 @@
 	+ Babel 사이트에서 직접 변환 : <https://babeljs.io/repl/>에 접속해서 코드를 직접 확인 할 수도 있습니다.
 	![babel 트랜스파일](./img/7_03.png)
 
-## 7.2 let과 const : [Jeonjeongho/JEON206 참고](https://github.com/Jeonjeongho/JEON206/blob/master/Chapter3/index.md#%EB%B3%80%EC%88%98%EC%99%80-%EC%83%81%EC%88%98)
+## 7.2 let과 const 
+[Jeonjeongho/JEON206](https://github.com/Jeonjeongho/JEON206/blob/master/Chapter3/index.md#%EB%B3%80%EC%88%98%EC%99%80-%EC%83%81%EC%88%98)의 **변수와 상수** 참고해주세요.
 * let과 const는 변수선언 키워드 입니다.
 * ES2015 이전까지는 var 키워드를 사용하였는데 호이스팅이 되고, 중복 선언해도 오류가 발생하지 않았습니다.
 * 이러한 문제를 해결하기 위해 let드 키워를 지원합니다. (블록 단위의 스코프, 중복 선언 방지)
 * const는 상수 기능을 제공합니다. 즉 한번 값이 주어지면 다시 변경할 수 없습니다.
-    + var 키워는 중복 선언해도 오류가 발생하지 않습니다.
+    + var 키워드는 중복 선언해도 오류가 발생하지 않습니다.
     ```
     var a = 100;
     var a = "hello";
@@ -47,14 +48,63 @@
     ```
     ![let 키워드](./img/7_04.png)
 
-
 ## 7.3 기본 파라미터와 가변 파라미터
+* 기본 파라미터(Default Parameter)를 이용해 함수 파라미터의 기본값을 지정할 수 있습니다.[예제 07-03](es2015test/src/07-03.js)
+* 가변 파라미터(Rest Parameter)는 여러 개의 파라미터 값을 배열로 받을 수 있습니다.[예제 07-04](es2015test/src/07-04.js)
+    + 가변 파라미터는 파라미터 앞에 ...으로 시작하고 배열 형태로 반환 됩니다. 
+
 ## 7.4 구조분해 할당(destructuring  assignment)
+* 배열, 객체의 값들을 추출하여 여러 변수에 할당할 수 있는 기능을 제공합니다. [예제 07-05](es2015test/src/07-05.js)
+* 구조분해 할당은 함수 파라미터에서도 사용할 수 있습니다. [예제 07-06](es2015test/src/07-06.js)
+
 ## 7.5 화살표 함수(Arrow function)
+* ES2015의 화살표 함수는 기존 함수 표현식에 비해 간결함을 제공합니다.
+* 아래 3개의 함수는 모두 동일한 기능을 수행합니다.
+```
+var test1 = {
+    return a+b;
+}
+let tet2 = (a,b) => {
+    return a+b;
+};
+let test3 = (a,b) => a+b;
+
+console.log(test1(3,4));
+console.log(test2(3,4));
+console.log(test3(3,4));
+```
+* 주의해야 할 점은 화살표 함수와 전통적인 함수는 서로 다른 this값이 바인딩된다는 점입니다. 
+    + [예제 07-07](es2015test/src/07-07.js)
+    + [예제 07-08](es2015test/src/07-08.js)
+
 ## 7.6 새로운 객체 리터럴
+
 ## 7.7 템플릿 리터럴
 ## 7.8 컬렉션
 ## 7.9 클래스
 ## 7.10 모듈
 ## 7.11 Promise
 ## 7.12 전개 연산자(Spread Operator)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
