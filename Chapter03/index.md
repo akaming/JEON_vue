@@ -80,7 +80,7 @@ var vmSum = new Vue({
     금액 : <span>{{amount}}원</span>
 </div>
 <script type="text/javascript">
-var vm = new Nue({
+var vm = new Vue({
     el: "#example",
     data: {amt : 1234567},
     computed: {
