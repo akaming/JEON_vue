@@ -54,15 +54,298 @@ new Vue({
 
 
 
+------
+
+inputTodo.vue
+
+```
+<style>
+* {
+    box-sizing: border-box
+}
+
+.input {
+    border: none;
+    width: 75%;
+    height: 35px;
+    padding: 10px;
+    float: left;
+    font-size: 16px;
+}
+
+.addbutton {
+    padding: 10px;
+    width: 25%;
+    height: 35px;
+    background: #d9d9d9;
+    color: #555;
+    float: left;
+    text-align: center;
+    font-size: 13px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.addbutton:hover {
+    background-color: #bbb
+}
+</style>
+
+<template>
+    <div>
+        <input class="input" type="text" id="task" v-model.trim="todo" aria-placeholder="입력 후 엔터!" v-on:click="addTodo">
+        <span class="addbutton" v-on:click="addTodo">추 가</span>
+    </div>
+</template>
+
+<script type="text/javascript">
+import eventBus from '../EventBus'
+
+export default {
+    name: 'input-todo',
+    data: function() {
+        return { todo: "" }
+    },
+    methods: {
+        addTodo: function() {
+            eventBus.$emit('add-todo', this.todo)
+            this.todo = "";
+        }
+    }
+}
+</script>
+```
+
+- inputTodo 에서는 input 데이터 입력 관련 작업을 수행하고 eventBus 를 등록하여, List 에 데이터를 추가하게 만들어줍니다.
+
+------
+
+List.vue
+
+```
+<style>
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    cursor: pointer;
+    position: relative;
+    padding: 8px 8px 8px 40px;
+    background: #eee;
+    font-size: 14px;
+    transition: 0.2s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+ul li:hover {
+    background: #ddd;
+}
+
+ul li.checked {
+    background: #BBB;
+    color: #fff;
+    text-decoration: line-through;
+}
+
+ul li.checked::before {
+    content: '';
+    position: absolute;
+    border-color: #fff;
+    border-style: solid;
+    border-width: 0px 1px 1px 0px;
+    top: 10px;
+    left: 16px;
+    transform: rotate(45deg);
+    height: 8px;
+    width: 8px;
+}
+
+.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 12px 16px 12px 16px
+}
+
+.close:hover {
+    background-color: #f44336;
+    color: white;
+}
+</style>
+
+<template>
+    <ul id="todolist">
+        <li v-for="a in todolist" :key="a.id" :class="checked(a.done)" 
+        @click="doneToggle(a.id)">
+            <span>{{ a.todo }}</span>
+            <span v-if="a.done"> (완료)</span>
+            <span class="close" v-on:click.stop="deleteTodo(a.id)">&#x00D7;</span>
+        </li>
+    </ul>
+</template>
+
+<script type="text/javascript">
+    import eventBus from '../EventBus'
+
+    export default {
+        created : function() {
+            eventBus.$on('add-todo', this.addTodo)
+        },
+        data: function() {
+            return {
+                todolist: [{
+                    id:1,
+                    todo: "영화보기",
+                    done: false
+                }, {
+                    id:2,
+                    todo: "주말 산책",
+                    done: true
+                }, {
+                    id:3,
+                    todo: "ES6 학습",
+                    done: false
+                }, {
+                    id:4,
+                    todo: "잠실 야구장",
+                    done: false
+                }, ]
+            }
+        },
+        methods: {
+            checked: function(done) {
+                if (done) return {
+                    checked: true
+                };
+                else return {
+                    checked: false
+                };
+            },
+            addTodo: function(todo) {
+                if (todo !== "") {
+                    this.todolist.push({
+                        id:new Date().getTime(), todo:todo, done:false
+                    });
+                }
+            },
+            doneToggle: function(index) {
+                var index = this.todolist.findIndex((item)=>item.id ==id);
+                this.todolist[index].done = !this.todolist[index].done;
+            },
+            deleteTodo: function(index) {
+                var index = this.todolist.findIndex((item)=>item.id ==id);
+                this.todolist.splice(index, 1)
+            }
+        }
+    }
+</script>
+```
+
+- List 에서는 처음에 등록된 리스트를 화면에 보여주고, 상태 관리와 리스트 삭제 그리고 eventBus 를 감시하여
+
+  inputTodo 액션에 따라 리스트를 추가해주는 작업을 합니다.
+
+------
+
+TodoList.vue
+
+```
+<style>
+* {
+    box-sizing: border-box
+}
+
+.header {
+    background-color: purple;
+    padding: 30px;
+    color: yellow;
+    text-align: center;
+}
+
+.header:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+</style>
+
+<template>
+    <div id="todolistapp">
+        <div id="header" class="header">
+            <h2>Todo List App</h2>
+            <input-todo></input-todo>
+        </div>
+        <list></list>
+    </div>
+</template>
+
+<script type="text/javascript">
+import InputTodo from './InputTodo.vue'
+import List from './List.vue'
+
+export default {
+    name: 'todo-list',
+    components: { InputTodo, List }
+}
+</script>
+```
+
+- TodoList 에서는 InputTodo, List 컴포넌트를 조합하고, main.js 에서 import 하여 화면에 랜더링을 합니다.
+
+  
+  
+
+## 9.2 - 컴포넌트에서의 스타일
+
+- 컴포넌트의 스타일은 `<style>` 태그 내에 작성하지만, 다른 컴포넌트에서 동일한 CSS 클래스명을 사용할 경우 충돌이 발생하여 마지막에 선언된 클래스가 적용됩니다.
+- 이를 방지하기 위해서 범위 CSS ( Scoped CSS ) 와 CSS 모듈( CSS Module )의 두가지 방법을 사용합니다.
 
 
 
+### [9.2.1 범위 CSS ( Scoped CSS )](https://vue-loader-v14.vuejs.org/kr/features/scoped-css.html)
+
+------
+
+ex) 다른 컴포넌트에서 같은 클래스 네임을 사용했을 경우
+
+![](http://lasertank3.cafe24.com/vuestudy/3.png)
+
+위와 같은 오류를 방지하기 위해  `<style>`태그에 scoped 를 추가해줍니다.
+
+![](http://lasertank3.cafe24.com/vuestudy/4.png)
+
+style 에 scoped 를 추가시 요소검사로 확인해보면 클래스 이름이 중복방지를 위해 변경된 것을 확인할 수 있으며, 추가적으로 범위 CSS를 사용할 때 몇가지 주의사항이 있습니다.
+
+1. 범위 CSS 는 특성 선택자( Attribute Selector ) 를 사용하기 때문에 브라우저에서 스타일을 적용하는 속도가 느리므로 반드시 속도가 빠른 ID 선택자, 클래스 선택자, 태그명 선택자로 요소를 선택해 스타일을 적용해야합니다.
+
+2. 부모 컴포넌트에 적용된 범위 CSS ( Scoped CSS ) 는 하위 컴포넌트에도 반영됩니다.
+
+   
+
+### 9.2.2 CSS 모듈 ( CSS Module )
+
+------
+
+CSS 모듈은 CSS 스타일을 마치 객체처럼 다룰 수 있으며, 설정 방법은 `<style module></style>` 로 사용할 수 
+
+있습니다.
+
+이 스타일은 Vue 인스턴스 내에서 `$style ` 이라는 계산형 속성( Computed Property ) 을 통해서 이용할 수 있습니다.
 
 
 
+**범위 CSS와 CSS 모듈 두 방식 모두 적용의 범위를 지정한다는 것이 같아 보일 수 있겠지만 두개의 차이점은 책에 나와있지 않아서 구글링 결과 쉽게 말해서 상속에 있다고 찾았습니다.**
+
+**범위 CSS 는 위에서도 언급했듯이 마크업 방식에 따라 자식 컴포넌트까지 영향을 줄 가능성이 있는 반면 CSS 모듈은 해당 컴포넌트만 적용되는 것이 차이점이나 두 방식 모두 상황에 따라서 어떤 방식이 더 효율적일지는 다를 수 있기에 어떤 것이 낫다 라고 말하긴 어려울 것 같습니다.**
 
 
 
+### 9.2.3 슬롯
 
-
+------
 
