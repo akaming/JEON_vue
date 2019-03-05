@@ -130,7 +130,7 @@ Vue.js는 전형적인 MVVM  패턴을 따르고 있습니다.  MVVM 패턴은 M
         <div>좋아하는 과일을 모두 골라주세요 : </div>
         <input type="checkbox" value="1" v-model="fruits"> 사과,
         <input type="checkbox" value="2" v-model="fruits"> 키위,
-        <input type="checkbox" value="3" v-model="fruits"> 포도
+        <input type="checkbox" value="3" v-model="fruits"> 포도,
     </div>
     <div id="sample2">
         선택한 과일들 : <span v-html="fruits"></span>
