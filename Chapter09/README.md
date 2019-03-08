@@ -392,3 +392,95 @@ ex) 다른 컴포넌트에서 같은 클래스 네임을 사용했을 경우
   자식은 부모에게 cx, cy 라는 이름의 속성으로 전달하고 부모는 자식에게 p1,p2 라는 이름으로 속성을 전달받고 전달받은 p1, p2는 해당 템플릿 안에서만 사용할 수 있습니다.
 
   그래서 이를 **범위 슬롯** 이라고 합니다.
+  
+    
+
+## 9.4  동적 컴포넌트
+
+- 화면의 동일한 위치에 여러 컴포넌트를 표현해야 하는 경우 사용하는 것이 동적 컴포넌트 입니다.
+  방법은 컴포넌트 요소를 템플릿에 작성하고 v-bind 디렉티브를 이용해 is 특성 값으로 어떤 컴포넌트를
+  그 위치에 나타낼지 결정하면 됩니다.
+
+- 동적 컴포넌트의 동작 원리는 https://seulcode.tistory.com/262 여기에 잘 나와있으며, 간단하게 설명하자면
+  컴포넌트를 변경 시 매번 컴포넌트를 제거하고 새로 생성하는 방식입니다.
+
+- 웹사이트의 효율을 높이기 위해서 유동적인 값이 필요하지 않은 정적 콘텐츠라면 `<keep-alive>` 요소로 감싸서 제거하지 않고 남게함으로 매번 새로 생성하는 불필요한 리소스를 절약할 수 있습니다.
+
+  > 즉 `keep-alive`라는 추상 엘리먼트로 감싸져있는 컴포넌트들이 변경될 때, 사라질 인스턴스를 메모리에서 제거하지 않음. 이로 인해 불필요한 re-render 를 막고 활성화되을 때 변경되었던 상태가 비활성화 후 다시 활성화 되었을 때 유지 됨. 공식 문서에서는 `transition` 내장 컴포넌트와 함께 사용하여 애니메이션 된 상태를 유지할 때 사용하기도 한다고 되어있음.
+
+App.vue
+
+```
+<template>
+    <div>
+        <div class="header">
+            <h1 class="headerText">(주) OpenSG</h1>
+            <nav>
+                <ul>
+                	// this.currentView 값 변경 -> 컨테이너 뷰 내용 변경
+                    <li><a href="#" @click="changeMenu('home')">Home</a></li>
+                    <li><a href="#" @click="changeMenu('about')">About</a></li>
+                    <li><a href="#" @click="changeMenu('contact')">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="container">
+            <component v-bind:is="currentView"></component>  // 컨테이너 뷰 컴포넌트
+        </div>
+    </div>
+</template>
+<script>
+import Home from './component/Home.vue' // 컴포넌트 임포트
+import About from './component/About.vue' // 컴포넌트 임포트
+import Contact from './component/Contact.vue' // 컴포넌트 임포트
+
+export default {
+    name: 'App',
+    components : {Home, About, Contact},
+    data(){
+        return {currentView:'home'}  // 첫페이지 home 컴포넌트 노출
+    },
+    method : {
+        changeMenu(view){
+            this.currentView = view;
+        }
+    }
+}
+</script>
+<style scoped>
+.header {background-color:aqua; padding:10px 0px 0px 0px}
+.haederText {padding:0 20px}
+ul{
+    list-style-type: none;margin:0;padding:0;overflow:hidden;background-color: purple;
+}
+li {float:left;}
+li a {display:block;color:yellow;text-align:center;padding:14px 16px;text-decoration: none;}
+li a:hover {background-color:aqua;color:black}
+</style>
+```
+
+- 만일 특정 컴포너너트만 캐싱하고 싶다면 include 와 exclude 특성을 사용합니다
+
+```
+<keep-alive include="about, home">
+    <component :is={currentView}></component>
+</keep-alive>
+```
+
+그리고 각 컴포넌트에서 name 옵션을 부여 후 export 시킵니다.
+
+
+
+## 9.5  재귀 컴포넌트
+
+- 재귀 컴포넌트( Recursive Components )는 템플릿에서 자기 자신을 호출하는 컴포넌트 입니다. 
+  ( 같을 수는 없지만 자바스크립트 이중 for문처럼 이해하면 더 쉽게 접근할 수 있을 것 같습니다. )
+- 반드시 name 옵션을 지정해야 합니다.
+
+
+
+6장에서 컴포넌트 기초를 설명했다면 9장에서는 컴포넌트를 활용하는 방법에 대해서 많이 정리되어 있습니다.
+
+정리하면서 느낀 점은 일단 6장부터 완벽하게 이해를 한 뒤 9장의 스킬들을 얼마나 잘 활용하는지가 코드의 
+
+퀄리티를 좌우할 것 같습니다.
