@@ -18,7 +18,7 @@
    <script type="text/javascript">
    var model = {
        name : "홍길동"
-   }
+   };
    var vm = new Vue({
        el: '#test',
        data: model
