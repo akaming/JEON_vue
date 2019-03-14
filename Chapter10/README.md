@@ -28,6 +28,9 @@ axios는 vue-resource가 지원하는 기능 대부분을 제공하며 취소 �
 [연락처 서비스 API 다운로드](https://github.com/stepanowon/contactsvc)
 
 다운로드한 코드는 README.md에 소개한 대로 npm install, npm run start 명령어를 이용해 실행합니다.
+
+## 10.2 axios 기능 테스트
+
 명령어를 이용해 contactsapp 이라는 이름의 별도 프로젝트를 생성합니다.
 
 axios 라이브러리는 자동으로 설치, 참조되지 않으며 추가적으로 설치해야 합니다.
