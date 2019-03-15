@@ -35,10 +35,10 @@ axios는 vue-resource가 지원하는 기능 대부분을 제공하며 취소 �
 
 axios 라이브러리는 자동으로 설치, 참조되지 않으며 추가적으로 설치해야 합니다.
 
-```angular2html
+```
 vue create contactsapp
 cd contactsapp
-yarn add axios 또는 npm install --save axios
+yarn add axios 또는 npm i -d axios
 ```
 
 사용법을 익히기 전에 http 프록시를 설정하는 이유와 방법을 살펴보겠습니다.
@@ -47,17 +47,18 @@ yarn add axios 또는 npm install --save axios
 
 브라우저에 기본 설정된 보안 정책 중에 SOP(Same Origin Policy) 라는 것이 있습니다.
 
-1. index.html 라는 컨슈머 페이지를 브라우저에 요청/응답
-2. origin 지정
+- SOP 보안 정책 순서
+1. 컨슈머 페이지(index.html)를 브라우저에 요청/응답
+2. 브라우저에서 origin 지정(http://localhost:8080)
 3. 브라우저에서 Service Provider로 요청
 4. Service Provider에서 요청 수신
-5. Service Provider 실행 -> 데이터 생성
+5. Service Provider에서 실행 -> 데이터 생성(http://sample.bmaster.kro.kr)
 6. 응답 전송
-7. 수신 후 로딩
+7. 수신 후 로딩(서로 origin이 다른 경우 거부)
 
 현재 브라우저의 origin과 다른 origin에 해당하는 서버와 통신하려고 할 때 요청부터 응답 전송까지는 정상적으로 수행되지만 브라우저로 로딩하는 단계에서 오류가 발생하는 현상이다.
 
-이 문제를 흔히 크로스 도메인 문제라고 불러왔지만 정확한 의미는 'SOP 보안 정책으로 인해 크로스 오리진으로부터 데이터를 로드할 수 없는 현상' 이라고 말할 수 있습니다.
+이 문제를 흔히 크로스 도메인 문제라고 불러왔지만 정확한 의미는 __'SOP 보안 정책으로 인해 크로스 오리진으로부터 데이터를 로드할 수 없는 현상'__ 이라고 말할 수 있습니다.
 
 도메인명이 같더라도 origin 정보가 한 글자라도 다르면 크로스 오리진 상태입니다.
 
@@ -69,13 +70,13 @@ yarn add axios 또는 npm install --save axios
 
 2, 3번인 경우에는 다른 조치없이 사용이 가능하지만 그렇지 않은 경우는 컨슈머 서버에 프록시 요소를 생성해서 컨슈머를 거쳐 요청이 전달되도록 해야 합니다.
 
-(프록시 서버는 JSP,PHP 등의 개발언어 기술로 만들거나 Tomcat, JBOSS 등의 웹 애플리케이션 서버로 설정을 해주면 이용할 수 있습니다.)
+_프록시 서버는 JSP,PHP 등의 개발언어 기술로 만들거나 Tomcat, JBOSS 등의 웹 애플리케이션 서버로 설정을 해주면 이용할 수 있습니다._
 
 Vue CLI가 생성하는 프로젝트 템플릿 코드에서 약간의 설정 파일만 작성하면 웹팩 개발서버를 이용해 프록시 서버 기능을 이용할 수 있습니다.
 
 프로젝트 최상위 디렉토리에 `vue.config.js` 파일을 생성하고 다음과 같이 작성합니다.
 
-```angular2html
+```
 // 예제 10-01 : vue.config.js 작성
 module.exports = {
     devServer: {
@@ -98,11 +99,15 @@ module.exports = {
 
 ### 10.2.2 axios 사용
 
+- CLI 사용
+
+`yarn add axios` or `npm i -d axios`
+
 - 단일 HTML 파일 작성시 CDN 방식으로 사용
 
 `<script src="https://unpkg.com/axios/dist/axios.min.js"></script>`
 
-```angular2html
+```
 // [저수준 API]
 axios(config)
 axios(url, config)
@@ -120,7 +125,7 @@ axios.options(url[, config])
 
 contactsapp 의 `src/AppAxiosTest.vue` 를 추가하고 기본 틀을 작성하겠습니다.
 
-```angularjs
+```
 // 예제 10-02
 <template>
     <div id="app">
@@ -210,9 +215,9 @@ contactsapp 의 `src/AppAxiosTest.vue` 를 추가하고 기본 틀을 작성하�
 </style>
 ```
 
-App.vue 대신에 AppAxiosTest.vue를 일시적으로 사용하도록 예제 10-03과 같이 main.js 를 수정합니다.
+App.vue 대신에 AppAxiosTest.vue를 일시적으로 사용하도록 예제 10-03과 같이 `main.js`를 수정합니다.
 
-```angularjs
+```
 import Vue from 'vue'
 // import App from './App.vue'
 import App from './AppAxiosTest.vue'
@@ -230,7 +235,7 @@ axios 저수준 api를 이용하는 예제부터 작성하겠습니다.
 
 아래 코드를 FetchContacts 메서드 내부에 삽입해주세요.
 
-```angularjs
+```
 // 예제 10-04 : axios 저수준 메서드
     axios({
         method : 'GET',
@@ -254,7 +259,7 @@ axios API 호출 후 리턴되는 객체는 Promise 객체입니다.
 
 요청이 성공이라면 then을 호출하고, 실패하면 catch가 호출됩니다.
 
-```angularjs
+```
 // 예제 10-05 : axios.get 메서드
     axios.get('/api/contacts/', {
         params: { pageno:1, pagesize:5 }
@@ -265,7 +270,7 @@ axios API 호출 후 리턴되는 객체는 Promise 객체입니다.
 
 한 건의 연락처를 조회하는 fetchContactOne 메서드 내부도 작성해보겠습니다.
 
-```angularjs
+```
 // 예제 10-06 : fetchContactOne 메서드
     axios.get('/api/contacts/'+this.no)
     .then((response) => {
@@ -303,7 +308,7 @@ POST 메서드에서는 주로 axios.post(url, data, config) 형태를 주로 �
 
 addContact 내부에 다음 코드를 작성합니다.
 
-```angularjs
+```
 // 예제 10-07 : axios.post 메서드
     axios.post('/api/contacts', { name:this.name, tel:this.tel, address:this.address })
         .then((response) => {
@@ -320,7 +325,7 @@ PUT 메서드의 사용 방법은 POST와 유사합니다.
 
 updateContact 메서드 내부에 다음 코드를 작성합니다.
 
-```angularjs
+```
 // 예제 10-08 : axios.put 메서드
     axios.put('/api/contacts/'+this.no, { name:this.name, tel:this.tel, address:this.address })
         .then((response) => {
@@ -341,7 +346,7 @@ GET 메서드와 용법이 비슷합니다.
 
 deleteContact 메서드 내부에 다음 코드를 작성합니다.
 
-```angularjs
+```
 // 예제 10-09 : axios.delete 메서드
     axios.delete('/api/contacts/'+this.no)
         .then((response) => {
@@ -356,7 +361,7 @@ deleteContact 메서드 내부에 다음 코드를 작성합니다.
 
 ### 10.2.6 파일 업로드 처리
 
-```angularjs
+```
 <form method="post" enctype="nultipart/form-data" action="/contacts/1491586656774/photo">
     <input type="file" name="photo">
     <input type="submit">
@@ -373,7 +378,7 @@ deleteContact 메서드 내부에 다음 코드를 작성합니다.
 
 changePhoto 메서드 내부에 다음 코드를 작성합니다.
 
-```angularjs
+```
 // 예제 10-10 : 파일 업로드 기능
     var data = new FormData();
     var file = this.$refs.photofile.files[0];
@@ -408,7 +413,7 @@ Vue 인스턴스 내부에서 axios를 이용하기 위해 Vue.prototype에 axio
 
 다음 코드를 main.js에 추가합니다.
 
-```angularjs
+```
 // 예제 10-11 : src/main.js 변경
 import Vue from 'vue'
 // import App from './App.vue'
@@ -427,7 +432,7 @@ new Vue({
 
 예를 들어 AppAxiosTest.vue 파일의 fetchContactOne 메서드는 다음과 같이 사용할 수 있습니다.
 
-```angularjs
+```
 // 예제 10-12 : fetchContactOne 메서드 변경
     this.$axios({
         method : 'GET',
@@ -458,7 +463,7 @@ axios를 사용하면서 then()를 처리할 때는 ES6의 화살표 함수를 �
 
 이전 예제에서 AppAxiosTest.vue를 사용하도록 설정하였는데 이를 다시 돌려놓도록 하겠습니다
 
-```angular2html
+```
 // 예제 10-13 : src/main.js 변경
 import Vue from 'vue'
 import App from './App.vue'
@@ -470,7 +475,7 @@ axios를 이용해 접근할 URL를 상수로 정의해봅니다.
 
 src 디렉토리 아래에 Config.js 파일을 추가하고 다음을 작성합니다.
 
-```angular2html
+```
 // 예제 10-14 : src/Config.js
 var BASE_URL = "/api";
 
@@ -496,7 +501,7 @@ export default {
 
 src 디렉토리 아래에 EventBus.js 파일을 추가하고 다음을 작성합니다.
 
-```angular2html
+```
 // 예제 10-15 : src/EventBus.js
 import Vue from 'vue';
 
@@ -529,7 +534,7 @@ src/components 디렉토리에 다음 5개의 컴포넌트 파일을 생성합�
 
 이를 위해 vuejs-paginate 라는 패키지를 설치하겠습니다.
 
-`yarn add vuejs-paginate bootstrap@3.3.x` 또는 `npm i --save vuejs-paginate bootstrap@3.3.x`
+`yarn add vuejs-paginate bootstrap@3.3.x` 또는 `npm i -d vuejs-paginate bootstrap@3.3.x`
 
 vue-js-paginate 패키지는 부트스트랩 css 파일을 필요로 하므로 src/main.js에서 부트스트랩 css 파일을 import 해야합니다
 
@@ -537,11 +542,11 @@ vue-js-paginate 패키지는 부트스트랩 css 파일을 필요로 하므로 s
 
 또한 IE에서는 Promise 객체를 지원하지 않는데 axios는 Promise 기반이므로 별도의 polyfill 요소를 다운로드하고 참조해야합니다.
 
-`yarn add es6-promise` 또는 `npm i --save es6-promise`
+`yarn add es6-promise` 또는 `npm i -d es6-promise`
 
 이제 src/main.js 파일을 열어서 es6-promise Polyfill의 사용과 bootstrap을 참조하기 위해 코드를 변경합니다.
 
-```angular2html
+```
 import Vue from 'vue'
 // import App from './App.vue'
 import App from './AppAxiosTest.vue'
@@ -564,7 +569,7 @@ Vue.prototype.$axios = axios;
 
 또한 동적 컴포넌트 방식으로 참조할 수 있도록 할 것입니다.
 
-```angular2html
+```
 // 예제 10-16 : src/App.vue의 기본 골격
 <template>
   <div id="container">
@@ -641,7 +646,7 @@ script 바로 아래에 4개의 컴포넌트와 이벤트 버스 설정 정보 �
 
 위 기능에 따라 methods 내부에 아래 코드를 작성합니다.
 
-```angular2html
+```
 // 예제 10-17
     pageChanged : function(page) {
       this.contactlist.pageno = page;
@@ -749,7 +754,7 @@ script 바로 아래에 4개의 컴포넌트와 이벤트 버스 설정 정보 �
 
 또한, 처음 실행시 첫번째 페이지 데이터가 나올 수 있도록 fetchContacts 메서드를 한 번 호출해야 합니다.
 
-```angular2html
+```
 // 예제10-18 : mounted 이벤트 훅의 코드
   this.fetchContacts(); // 첫번째 페이지 데이터를 위한 호출
   eventBus.$on("cancel", () => {
@@ -802,7 +807,7 @@ ContactList.vue는 App.vue로부터 contactlist 데이터 속성을 props로 전
 |editPhoto|no|조회하고 있는 연락처 리스트에서 사진을 클릭했을 때 no 필드 값을 전달하여 사진 변경 폼을 나타내기 위한 이벤트
 |pageChanged|page|ContactList.vue 컴포넌트에서 사용하는 vuejs-paginate 컴포넌트에서 페이지가 바뀌면 App.vue로 알려서 처리하기 위한 이벤트
 
-```angular2html
+```
 // 예제 10-19 : src/components/ContactList.vue
 <template>
     <div>
@@ -923,7 +928,7 @@ img.thumbnail { width:48px; height: 48px; margin-top: auto;
 
 위와 같이 import한 후 아래와 같이 <paginate> 요소를 사용합니다
 
-```angular2html
+```
     <paginate ref="pagebuttons"
         :page-count="totalpage"
         :page-range="7"
@@ -952,7 +957,7 @@ method 속성 -> 이벤트 버스 객체를 통해 이벤트를 발신($emit)하
 
 여기까지의 코드를 실행해보겠습니다. Vue CLI로 생성한 프로젝트는 ESLint 기능에 의해 console 출력을 제한하고 있어, 확인을 위해 `package.json`에 다음 설정을 추가하고 `yarn serve` 명령어를 실행해 줍니다.
 
-```angular2html
+```
 "rules": {
     "no-console": "off"
 }
@@ -966,7 +971,7 @@ method 속성 -> 이벤트 버스 객체를 통해 이벤트를 발신($emit)하
 
 이 두 폼은 공통 UI가 있어 ContactForm.vue를 자식 컴포넌트로 참조하도록 합니다.
 
-```angular2html
+```
 예제 10-21 : src/components/Addcontact.vue
 <template>
     <contactForm mode="add" />
@@ -981,7 +986,7 @@ export default {
 </script>
 ```
 
-```angular2html
+```
 예제 10-22 : src/components/UpdateContact.vue
 <template>
     <contactForm mode="update" :contact="contact" />
@@ -1005,7 +1010,7 @@ ContactForm.vue는 mode가 'update'인 경우에 contact 속성을 전달받아 
 
 이제 ContactForm.vue를 작성하도록 합니다.
 
-```angular2html
+```
 // 예제 10-23 : src/components/ContactForm.vue
 <template>
 <div class="modal">
@@ -1121,7 +1126,7 @@ ContactForm.vue는 모달 폼을 구현하기 위해 이 폼이 보여지고 있
 
 마지막으로 UpdatePhoto.vue 컴포넌트를 작성합니다. 연락처 목록의 섬네일 사진을 클릭하면 현재 사진을 확인하고 사진 파일 업로드하여 변경할 수 있는 폼을 제공합니다.
 
-```angular2html
+```
 // 예제 10-24 : src/components/UpdatePhoto.vue
 <template>
 <div class="modal">
