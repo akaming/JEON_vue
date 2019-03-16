@@ -493,7 +493,7 @@ export default {
 }
 ```
 
-아무 기능이 정의되지 않은 비어 있는 펻 dlstmxjstmfmf todtjdgotj ㄷ테ㅐㄱㅅgkqslek.
+아무 기능이 정의되지 않은 비어 있는 Vue 인스턴스를 생성해서 export하면 됩니다.
 
 src 디렉토리 아래에 EventBus.js 파일을 추가하고 다음을 작성합니다.
 
@@ -544,8 +544,8 @@ vue-js-paginate 패키지는 부트스트랩 css 파일을 필요로 하므로 s
 
 ```
 import Vue from 'vue'
-// import App from './App.vue'
-import App from './AppAxiosTest.vue'
+import App from './App.vue'
+// import App from './AppAxiosTest.vue'
 import axios from 'axios'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -824,7 +824,6 @@ ContactList.vue는 App.vue로부터 contactlist 데이터 속성을 props로 전
                 <td>{{contact.name}}</td>
                 <td>{{contact.tel}}</td>
                 <td>{{contact.address}}</td>
-                // 여기부터
                 <td><img class="thumbnail" :src="contact.photo" 
                     @click="editPhoto(contact.no)" /></td>
                 <td>
@@ -833,12 +832,10 @@ ContactList.vue는 App.vue로부터 contactlist 데이터 속성을 props로 전
                     <button class="btn btn-primary" 
                         @click="deleteContact(contact.no)">삭제</button>
                 </td>
-                // 여기까지
             </tr>
         </tbody>
     </table>
-    </div>  
-        // 여기부터
+    </div>
         <paginate ref="pagebuttons"
             :page-count="totalpage"
             :page-range="7"
@@ -849,7 +846,6 @@ ContactList.vue는 App.vue로부터 contactlist 데이터 속성을 props로 전
             :container-class="'pagination'"
             :page-class="'page-item'">
         </paginate>
-        // 여기까지
     </div>
 </template>
 
