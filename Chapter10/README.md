@@ -434,11 +434,7 @@ new Vue({
 
 ```
 // 예제 10-12 : fetchContactOne 메서드 변경
-    this.$axios({
-        method : 'GET',
-        url : '/api/contacts',
-        params : { pageno : 1, pagesize:5 }
-    })
+    this.$axios.get('/api/contacts/'+this.no)
         .then((response) => {
             console.log(response);
             this.result = response.data;
