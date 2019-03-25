@@ -1,4 +1,6 @@
 .idea
+/node_modules/
+
 Chapter09/package.json
 Chapter09/yarn.lock
 Chapter09/.vscode/settings.json
